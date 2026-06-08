@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement & Internship Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass-effect">
+            <div class="sidebar-header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-color);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                <h2>Analytics</h2>
+                <p>2025 - 2026 Stats</p>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-target="overview">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Overview
+                </button>
+                <button class="nav-btn" data-target="placements">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                    Placements
+                </button>
+                <button class="nav-btn" data-target="internships">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    Internships
+                </button>
+                <button class="nav-btn" data-target="students">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Student List
+                </button>
+                <button class="nav-btn" data-target="statistics">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"></path></svg>
+                    Statistics
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header with Global Filter -->
+            <header class="top-header glass-effect">
+                <div class="header-title">
+                    <h1>Dashboard</h1>
+                    <span id="current-view-badge" class="badge badge-accent">All Companies</span>
+                </div>
+                <div class="global-filter">
+                    <label for="global-company-filter">View Stats For:</label>
+                    <select id="global-company-filter" class="search-input">
+                        <option value="">All Companies (Global View)</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- 1. Overview Section -->
+            <section id="overview" class="content-section active">
+                
+                <!-- Company Profile Card (Hidden globally, shown when company selected) -->
+                <div id="company-profile-card" class="company-profile glass-effect" style="display: none;">
+                    <div class="profile-header">
+                        <h2 id="profile-name">Company Name</h2>
+                        <span id="profile-category" class="badge">Category</span>
+                    </div>
+                    <div class="profile-details">
+                        <div class="detail-item">
+                            <span class="label">Date of Visit:</span>
+                            <span id="profile-date" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Offered CTC:</span>
+                            <span id="profile-ctc" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Offered Stipend:</span>
+                            <span id="profile-stipend" class="value">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card glass-effect">
+                        <div class="metric-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg></div>
+                        <div class="metric-info">
+                            <h3>Total Placements</h3>
+                            <p id="metric-placements" class="metric-value">--</p>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-effect">
+                        <div class="metric-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success-color)" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+                        <div class="metric-info">
+                            <h3>Highest CTC (LPA)</h3>
+                            <p id="metric-highest-ctc" class="metric-value">--</p>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-effect" id="metric-card-companies">
+                        <div class="metric-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg></div>
+                        <div class="metric-info">
+                            <h3>Total Companies</h3>
+                            <p id="metric-companies" class="metric-value">--</p>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-effect">
+                        <div class="metric-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg></div>
+                        <div class="metric-info">
+                            <h3>Total Internships</h3>
+                            <p id="metric-internships" class="metric-value">--</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card glass-effect">
+                        <h3>Placements by Branch</h3>
+                        <canvas id="branchChart"></canvas>
+                    </div>
+                    <div class="chart-card glass-effect">
+                        <h3 id="recruiterChartTitle">Top 5 Recruiters</h3>
+                        <canvas id="recruiterChart"></canvas>
+                    </div>
+                    <div class="chart-card glass-effect">
+                        <h3>Internships by Branch</h3>
+                        <canvas id="internshipBranchChart"></canvas>
+                    </div>
+                    <div class="chart-card glass-effect" id="stipendChartContainer">
+                        <h3>Top Internship Stipends</h3>
+                        <canvas id="stipendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Placements Section -->
+            <section id="placements" class="content-section">
+                <div class="table-container glass-effect">
+                    <div class="table-header">
+                        <h3>Company Placements</h3>
+                        <div class="table-controls">
+                            <input type="text" id="search-placements" class="search-input" placeholder="Search...">
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="placements-table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Total Offers</th>
+                                    <th>CTC (LPA)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Internships Section -->
+            <section id="internships" class="content-section">
+                <div class="table-container glass-effect">
+                    <div class="table-header">
+                        <h3>Internship Offers</h3>
+                        <div class="table-controls">
+                            <input type="text" id="search-internships" class="search-input" placeholder="Search...">
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="internships-table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Duration</th>
+                                    <th>Category</th>
+                                    <th>Total Offers</th>
+                                    <th class="sortable" id="sort-stipend-intern">Stipend ↕</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Students Section -->
+            <section id="students" class="content-section">
+                <div class="table-container glass-effect">
+                    <div class="table-header">
+                        <h3>Student Details</h3>
+                        <div class="table-controls">
+                            <input type="text" id="search-students" class="search-input" placeholder="Search students...">
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="students-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Branch</th>
+                                    <th>CGPA</th>
+                                    <th>Company</th>
+                                    <th class="sortable" id="sort-stipend-student">CTC / Stipend ↕</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Statistics Section -->
+            <section id="statistics" class="content-section">
+                <div class="table-container glass-effect">
+                    <div class="table-header">
+                        <h3>CTC Clustering & CGPA Stats</h3>
+                        <div class="table-controls">
+                            <button id="stats-tab-standard" class="badge badge-accent" style="cursor: pointer; border: none; font-size: 0.85rem; padding: 6px 12px;">Standard (6L)</button>
+                            <button id="stats-tab-detailed" class="badge" style="cursor: pointer; border: none; font-size: 0.85rem; padding: 6px 12px;">Detailed (3L)</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="statistics-table">
+                            <thead>
+                                <tr>
+                                    <th>CTC Range (LPA)</th>
+                                    <th>Total Students</th>
+                                    <th>Average CGPA</th>
+                                    <th>Median CGPA</th>
+                                    <th>Min CGPA</th>
+                                    <th>Max CGPA</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Branch Statistics Table -->
+                <div class="table-container glass-effect" style="margin-top: 20px;">
+                    <div class="table-header">
+                        <h3>Branch-wise CTC & CGPA Stats</h3>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="branch-statistics-table">
+                            <thead>
+                                <tr>
+                                    <th>Branch</th>
+                                    <th>Placed Students</th>
+                                    <th>Mean CTC (LPA)</th>
+                                    <th>Median CTC (LPA)</th>
+                                    <th>Mean CGPA</th>
+                                    <th>Median CGPA</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Load Data and Logic -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
